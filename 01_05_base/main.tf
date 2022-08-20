@@ -5,12 +5,14 @@ variable "aws_access_key" {}
 
 variable "aws_secret_key" {}
 
+variable "aws_profile" {}
+
 variable "ssh_key_name" {}
 
 variable "private_key_path" {}
 
 variable "region" {
-  default = "us-east-2"
+  default = "eu-west-1"
 }
 
 variable "vpc_cidr" {
