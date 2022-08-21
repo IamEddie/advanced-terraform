@@ -5,12 +5,14 @@ variable "aws_access_key" {}
 
 variable "aws_secret_key" {}
 
+variable "aws_profile" {}
+
 variable "iam_accounts" {
   type = set(string)
 }
 
 variable "region" {
-  default = "us-east-2"
+  default = "eu-west-1"
 }
 
 variable "vpc_cidr" {
@@ -143,8 +145,8 @@ resource "aws_security_group" "sg-nodejs-instance" {
 }
 
 # INSTANCE
-resource "aws_instance" "nodejs1" {
-  //count = 4
+resource "aws_instance" "node_instances" {
+  count = 4
 
   ami = data.aws_ami.aws-linux.id
   instance_type = var.environment_instance_settings["PROD"].instance_type
@@ -154,6 +156,13 @@ resource "aws_instance" "nodejs1" {
   monitoring = var.environment_instance_settings["PROD"].monitoring
 
   tags = {Environment = var.environment_list[0]}
+}
+
+# we are using a set and each value accessed by key
+resource "aws_iam_user" "iam-users" {
+  for_each = var.iam_accounts
+
+  name = each.key
 }
 
 
@@ -186,5 +195,5 @@ data "aws_ami" "aws-linux" {
 # OUTPUT
 # //////////////////////////////
 output "instance-dns" {
-  value = aws_instance.nodejs1.public_dns
+  value = aws_instance.node_instances.*.public_dns
 }

@@ -5,8 +5,10 @@ variable "aws_access_key" {}
 
 variable "aws_secret_key" {}
 
+variable "aws_pofile" {}
+
 variable "region" {
-  default = "us-east-2"
+  default = "eu-west-1"
 }
 
 variable "vpc_cidr" {
@@ -182,4 +184,9 @@ data "aws_ami" "aws-linux" {
 # //////////////////////////////
 output "instance-dns" {
   value = aws_instance.nodejs1.public_dns
+}
+
+# output internal IP/dns
+output "private-dns" {
+  value = aws_instance.nodejs1.private_dns
 }

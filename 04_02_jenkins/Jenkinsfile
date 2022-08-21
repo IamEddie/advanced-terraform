@@ -1,11 +1,11 @@
 node {
     stage('Clone') { // for display purposes
-        // Clone the configurations repository
+        // Clone the configurations repository from Github
         cleanWs()
         git 'https://github.com/LinkedInLearning/advanced-terraform-2823489.git'   
     }
     stage('Download') {
-        // Download Terraform
+        // Download Terraform CLi 
         sh label: '', script: 'curl https://releases.hashicorp.com/terraform/0.12.29/terraform_0.12.29_linux_amd64.zip \
             --output terraform_0.12.29_darwin_amd64.zip \
              && unzip terraform_0.12.29_darwin_amd64.zip'

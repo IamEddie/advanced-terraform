@@ -2,7 +2,9 @@ aws_access_key = ""
 
 aws_secret_key = ""
 
-region = ""
+region = "eu-west-1"
+
+aws_profile = "aws_profile = ""
 
 env_instance_type = "t2.micro"
 

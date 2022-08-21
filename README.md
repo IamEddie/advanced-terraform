@@ -46,6 +46,40 @@ This repository has a folder for each of the videos in the course. The naming co
 - $ aws ec2 describe-instances --query "Reservations[].Instances[].InstanceId" --output table --profile demo
 19. Clean/Destroy the created resources
 - $ terraform destroy
+
+Commands
+========
+$ terraform plan -var deploy_environment=PROD
+$ terraform console #starts a repl(read, evaluate, print, look)
+=> 5 != 5 ? "foo" : "bar" #if condition is true, it prints "foo" but if false, it prints "bar"(turnery operator)
+- aws_instance=node_instances.*.public_dns #the * asteristik is calld a sprat, to regenerate count
+- "${data.aws_iam_user.terraform.arn}" #string intrapolation to allow the injection the resources of the terraform user
+$ terraform plan -out=backend.tfplan
+
+03_05-06_multi_environment commands
+===================================
+$ terraform init ../../manifests
+$ terraform plan -out=s1.tfplan ../..manifests
+View the resources
+==================
+1. $ export AWS_PAGER=""
+2. $ aws ec2 describe-instances \
+     --filters Name=tag-key,Values=Name \
+     --query 'Reservations[*].Instances[*].{Instance:InstanceId,AZ:Placement.AvailabilityZone,Name:Tags[?Key=='Name']|[0].Value,Environment:Tags[?Key=='environment']|[0].Value}' \
+     --output table
+
+Terraform Cloud
+===============
+- You must have an account on app.terraform.io
+1. Navigate to the folder
+2. $ terraform login
+
+
+
+
+
+
+
 ### Instructor
 
 **David Swersky**
